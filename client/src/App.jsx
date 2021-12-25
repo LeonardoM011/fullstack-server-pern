@@ -8,7 +8,7 @@ function App() {
     fetch("/api")
       .then((res) => res.json())
       .then((result) => {
-
+        console.log(result);
       },
       (error) => {
       }

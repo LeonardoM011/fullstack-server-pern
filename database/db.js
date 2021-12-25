@@ -20,7 +20,7 @@ const pool = new Pool({
 });
 
 // Use only if it's the first time running the server
-function createTable() {
+exports.createTable = () => {
   // Creating SQL query
   const text = `CREATE TABLE IF NOT EXISTS accounts (
     userid SERIAL PRIMARY KEY,
@@ -38,33 +38,34 @@ function createTable() {
     .catch(e => console.error(e.stack));
 }
 
-addUser();
-function addUser() {
+exports.addUser = () => {
   // Creating SQL query with arguments
   const text = 'INSERT INTO accounts(username, password, created_on) VALUES($1, $2, NOW()) RETURNING *';
   // Arguments which are not included in original string and have little risk of SQL injection
   const values = ['leonardo3', '123456'];
-  pool
-    .query(text, values)
+  pool.query(text, values)
     .then(res => {
       console.log(res);
   })
   .catch(e => console.error(e.stack));
 }
 
-getUser(3);
-function getUser(id) {
+exports.getUser = (id) => {
   const text = 'SELECT * FROM accounts WHERE userid = $1;';
   const values = [id];
-  pool
-    .query(text, values)
+  pool.query(text, values)
     .then(res => {
-      console.log(res.rows[0]);
+      return res.rows[0];
   })
-  .catch(e => console.error(e.stack));
+  .catch(e => {
+    console.error(e.stack);
+    return e.stack;
+  });
 }
 
-cleanUp();
-function cleanUp() {
+process.on('exit', function() {
   pool.end();
-}
+});
+/*exports.cleanUp = () => {
+  pool.end();
+}*/
