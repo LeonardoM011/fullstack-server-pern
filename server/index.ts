@@ -1,6 +1,6 @@
-const path = require("path");
-const express = require("express");
-const db = require("../database/db.js");
+import path from "path";
+import express from "express";
+import * as db from "../database/db";
 
 const PORT = process.env.PORT || 3001;
 
@@ -9,11 +9,14 @@ const app = express();
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 app.get("/api", (req, res) => {
-    db.getUser(1)
-        .then(() => {
-            //res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+    db.getUserById(1)
+        .then(res => {
+            console.log(res.rows[0]);
+        })
+        .catch(e => {
+            console.error(e.stack);
         });
-    res.json("Hello");
+    res.json("");
 });
 
 app.get("*", (req, res) => {

@@ -105,3 +105,6 @@ dist
 
 # React build files
 client/build/
+
+# TypeScript build files
+build/
