@@ -49,12 +49,12 @@ export async function getUserById(id : number) : Promise<QueryResult<any>> {
   return pool.query(text, values);
 }
 
-/*export default getUserById = async (id : number) => {
-  const text : string = 'SELECT * FROM accounts WHERE userid = $1;';
-  const values : string[] = [String(id)];
+export async function getUserByName(name : string) : Promise<QueryResult<any>> {
+  const text : string = 'SELECT * FROM accounts WHERE username = $1;';
+  const values : string[] = [name];
 
   return pool.query(text, values);
-}*/
+}
 
 process.on('exit', function() {
   pool.end();
