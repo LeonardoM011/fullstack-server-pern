@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:client": "cd client && npm install && npm run build",
+    "build:client": "cd client && npm run build",
     "build:server": "npm install && tsc",
     "tsc": "tsc",
     "start:dev": "npm run build:client && ts-node-dev --respawn --transpile-only ./server/index.ts",

@@ -13,32 +13,35 @@ app.use(express.static(path.resolve(__dirname, "../client/build")));
 const httpServer = createServer(app);
 const io = new Server(httpServer);
 
-io.on("connection", (socket) => { 
+io.on("connection", (socket) => {
+    console.log(`Connection oppened: ${socket.id}`);
     socket.conn.on("packet", ({ type, data }) => {    
         // called for each packet received
     });
     socket.conn.on("close", (reason) => {
+        console.log(`Connection closed: ${socket.id}`);
         // called when the underlying connection is closed  
     });
 });
 
-app.get("/api", (req, res) => {
+app.post("/api", (req, res) => {
+    console.log(req.body['username']);
+    //console.log(req.query.password);
     /*db.getUserById(1)
         .then(res => {
             console.log(res.rows[0]);
+            io.emit("login_response", { 'username': res.rows[0]['username'], 'password': res.rows[0]['password'] });
         })
         .catch(e => {
             console.error(e.stack);
         });*/
-    //db.getUserByName("leonardo");
-    res.json("");
+    //db.getUserByName("leonardo")
+    res.json("success");
 });
 
 app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
-
-
 
 httpServer.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
