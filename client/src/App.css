@@ -1,0 +1,10 @@
+.page-wrapper {
+    display: block;
+    width: fit-content;
+    margin: auto;
+}
+
+button {
+    padding: 5px;
+    background-color: pink;
+}

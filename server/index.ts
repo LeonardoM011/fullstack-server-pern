@@ -27,18 +27,25 @@ io.on("connection", (socket) => {
 });
 
 app.post("/api", (req, res) => {
-    console.log(req.body.username);
-    //console.log(req.query.password);
-    /*db.getUserById(1)
-        .then(res => {
-            console.log(res.rows[0]);
-            io.emit("login_response", { 'username': res.rows[0]['username'], 'password': res.rows[0]['password'] });
+    db.getUserByName(req.body.username)
+        .then(data => {
+            console.log(data.rows[0]);
+            if (data.rows[0]) {
+                if (req.body.password === data.rows[0]['password']) {
+                    console.log(`$(req.body.username) logged in`);
+                    io.emit("login_response", { 'success': true, 'token': '123456' });
+                } else {
+                    io.emit("login_response", { 'success': false, 'token': '' });
+                }
+            } else {
+                io.emit("login_response", { 'success': false, 'token': '' });
+            }
         })
         .catch(e => {
             console.error(e.stack);
-        });*/
-    //db.getUserByName("leonardo")
-    //res.json("success");
+        }
+    );
+    res.json("success");
 });
 
 app.get("*", (req, res) => {
