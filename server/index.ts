@@ -2,6 +2,7 @@ import path from "path";
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import * as bodyParser from "body-parser";
 import * as db from "../database/db";
 
 const PORT = process.env.PORT || 3001;
@@ -9,6 +10,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 app.use(express.static(path.resolve(__dirname, "../client/build")));
+app.use(bodyParser.json());
 
 const httpServer = createServer(app);
 const io = new Server(httpServer);
@@ -25,7 +27,7 @@ io.on("connection", (socket) => {
 });
 
 app.post("/api", (req, res) => {
-    console.log(req.body['username']);
+    console.log(req.body.username);
     //console.log(req.query.password);
     /*db.getUserById(1)
         .then(res => {
@@ -36,7 +38,7 @@ app.post("/api", (req, res) => {
             console.error(e.stack);
         });*/
     //db.getUserByName("leonardo")
-    res.json("success");
+    //res.json("success");
 });
 
 app.get("*", (req, res) => {

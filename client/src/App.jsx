@@ -21,7 +21,17 @@ function App() {
     e.preventDefault();
     console.log(username);
     console.log(password);
-    fetch("/api", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ 'username': 'Leo', 'password': '123' }) });
+    fetch("/api", { 
+      method: 'POST', 
+      headers: { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json' ,
+        'test': '12346'
+      }, 
+      body: JSON.stringify({ 'username': 'Leo', 'password': '123' })
+    })
+      .then(response => response.json())
+      .then(data => console.log(data));
       /*.then((res) => res.json())
       .then((result) => {
         console.log(result);
